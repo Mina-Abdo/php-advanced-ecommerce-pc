@@ -1,35 +1,69 @@
 <?php
 
-namespace App\Http\Controllers\AbstractAuth\Auth;
+namespace App\Http\Controllers\User\Auth;
 
-use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\AbstractAuth\Auth\VerifyEmailController as AbstractVerifyEmailController;
 
-abstract class VerifyEmailController extends Controller implements
-RouteNamePrefixInterface,
-GuardInterface
+class VerifyEmailController extends AbstractVerifyEmailController
 {
     /**
-     * Mark the authenticated user's email address as verified.
+     * guard
      *
-     * @param  \Illuminate\Foundation\Auth\EmailVerificationRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @var string
      */
-    public function __invoke(EmailVerificationRequest $request)
+    public $guard = 'web';
+    /**
+     * routNamePrefix
+     *
+     * @var string
+     */
+    public $routeNamePrefix = 'users.';
+
+    /**
+     * Get guard
+     *
+     * @return  string
+     */
+    public function getGuard() :string
     {
-        $route = route($this->getRouteNamePrefix() . 'dashboard') . '?verified=1';
-        if ($request->user($this->getGuard())->hasVerifiedEmail()) {
-            return redirect($route);
-        }
+        return $this->guard;
+    }
 
-        if ($request->user($this->getGuard())->markEmailAsVerified()) {
-            event(new Verified($request->user($this->getGuard())));
-        }
+    /**
+     * Set guard
+     *
+     * @param  string  $guard  guard
+     *
+     * @return  self
+     */
+    public function setGuard(string $guard)
+    {
+        $this->guard = $guard;
 
-        return redirect($route);
+        return $this;
+    }
+
+    /**
+     * Get routNamePrefix
+     *
+     * @return  string
+     */
+    public function getRouteNamePrefix() :string
+    {
+        return $this->routeNamePrefix;
+    }
+
+    /**
+     * Set routNamePrefix
+     *
+     * @param  string  $routeNamePrefix  routNamePrefix
+     *
+     * @return  self
+     */
+    public function setRouteNamePrefix(string $routeNamePrefix)
+    {
+        $this->routeNamePrefix = $routeNamePrefix;
+
+        return $this;
     }
 }

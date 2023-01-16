@@ -1,32 +1,37 @@
 <?php
 
-namespace App\Http\Controllers\AbstractAuth\Auth;
+namespace App\Http\Controllers\User\Auth;
 
-use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
+use App\Http\Controllers\AbstractAuth\Auth\PasswordController as AbstractPasswordController;
 
-abstract class PasswordController extends Controller implements GuardInterface
+class PasswordController extends AbstractPasswordController
 {
     /**
-     * Update the user's password.
+     * guard
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @var string
      */
-    public function update(Request $request)
+    public $guard = 'web';
+
+
+    /**
+     * Get the value of guard
+     * @return string
+     */
+    public function getGuard() :string
     {
-        $validated = $request->validateWithBag('updatePassword', [
-            'current_password' => ['required', 'current_password'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
-        ]);
+        return $this->guard;
+    }
 
-        $request->user($this->getGuard())->update([
-            'password' => Hash::make($validated['password']),
-        ]);
+    /**
+     * Set the value of guard
+     *
+     * @return  self
+     */
+    public function setGuard(string $guard)
+    {
+        $this->guard = $guard;
 
-        return back()->with('status', 'password-updated');
+        return $this;
     }
 }

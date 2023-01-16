@@ -1,50 +1,75 @@
 <?php
 
-namespace App\Http\Controllers\AbstractAuth\Auth;
+namespace App\Http\Controllers\User\Auth;
 
-use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\ViewPrefixInterface;
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
-abstract class ConfirmablePasswordController extends Controller implements
-ViewPrefixInterface,
-GuardInterface,
-RouteNamePrefixInterface
+use App\Http\Controllers\AbstractAuth\Auth\ConfirmablePasswordController AS AbstractConfirmablePasswordController;
+
+class ConfirmablePasswordController extends AbstractConfirmablePasswordController
 {
+    public $viewPrefix = 'user.';
+
+    public $guard = 'web';
+
+    public $routeNamePrefix = 'users.';
+
     /**
-     * Show the confirm password view.
-     *
-     * @return \Illuminate\View\View
+     * Get the value of viewPrefix
      */
-    public function show()
+    public function getViewPrefix() :string
     {
-        return view($this->getViewPrefix() . 'auth.confirm-password');
+        return $this->viewPrefix;
     }
 
     /**
-     * Confirm the user's password.
+     * Set the value of viewPrefix
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
+     * @return  self
      */
-    public function store(Request $request)
+    public function setViewPrefix(string $viewPrefix)
     {
-        if (! Auth::guard($this->getGuard())->validate([
-            'email' => $request->user('web')->email,
-            'password' => $request->password,
-        ])) {
-            throw ValidationException::withMessages([
-                'password' => __('auth.password'),
-            ]);
-        }
+        $this->viewPrefix = $viewPrefix;
 
-        $request->session()->put('auth.password_confirmed_at', time());
+        return $this;
+    }
 
-        return redirect()->route($this->getRouteNamePrefix() . 'dashboard');
+    /**
+     * Get the value of guard
+     */
+    public function getGuard() :string
+    {
+        return $this->guard;
+    }
+
+    /**
+     * Set the value of guard
+     *
+     * @return  self
+     */
+    public function setGuard(string $guard)
+    {
+        $this->guard = $guard;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of routeNamePrefix
+     */
+    public function getRouteNamePrefix() :string
+    {
+        return $this->routeNamePrefix;
+    }
+
+    /**
+     * Set the value of routeNamePrefix
+     *
+     * @return  self
+     */
+    public function setRouteNamePrefix(string $routeNamePrefix)
+    {
+        $this->routeNamePrefix = $routeNamePrefix;
+
+        return $this;
     }
 }

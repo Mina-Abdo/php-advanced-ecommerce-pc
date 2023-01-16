@@ -2,14 +2,7 @@
 
 namespace App\Http\Controllers\User\Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Providers\RouteServiceProvider;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\ViewPrefixInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
+
 use App\Http\Controllers\AbstractAuth\Auth\AuthenticatedSessionController as AbstractAuthenticatedSessionController;
 
 class AuthenticatedSessionController extends AbstractAuthenticatedSessionController
@@ -25,7 +18,7 @@ class AuthenticatedSessionController extends AbstractAuthenticatedSessionControl
      *
      * @var string
      */
-    public $routNamePrefix = 'users.';
+    public $routeNamePrefix = 'users.';
     /**
      * viewPrefix
      *
@@ -53,6 +46,54 @@ class AuthenticatedSessionController extends AbstractAuthenticatedSessionControl
     public function setGuard(string $guard)
     {
         $this->guard = $guard;
+
+        return $this;
+    }
+
+    /**
+     * Get viewPrefix
+     *
+     * @return  string
+     */
+    public function getViewPrefix() :string
+    {
+        return $this->viewPrefix;
+    }
+
+    /**
+     * Set viewPrefix
+     *
+     * @param  string  $viewPrefix  viewPrefix
+     *
+     * @return  self
+     */
+    public function setViewPrefix(string $viewPrefix)
+    {
+        $this->viewPrefix = $viewPrefix;
+
+        return $this;
+    }
+
+    /**
+     * Get routNamePrefix
+     *
+     * @return  string
+     */
+    public function getRouteNamePrefix() :string
+    {
+        return $this->routeNamePrefix;
+    }
+
+    /**
+     * Set routNamePrefix
+     *
+     * @param  string  $routeNamePrefix  routNamePrefix
+     *
+     * @return  self
+     */
+    public function setRouteNamePrefix(string $routeNamePrefix)
+    {
+        $this->routeNamePrefix = $routeNamePrefix;
 
         return $this;
     }

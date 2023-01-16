@@ -9,7 +9,7 @@ interface BrokerInterface
      * @param  string $broker
      * @return void
      */
-    public function setBroker($broker);
+    public function setBroker(string $broker);
 
     /**
      * getBroker

@@ -1,62 +1,99 @@
 <?php
 
-namespace App\Http\Controllers\AbstractAuth\Auth;
+namespace App\Http\Controllers\User\Auth;
 
-use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\ViewPrefixInterface;
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use App\Http\Controllers\AbstractAuth\Auth\RegisteredUserController as AbstractRegisteredUserController;
 
-abstract class RegisteredUserController extends Controller implements
-ViewPrefixInterface,
-GuardInterface,
-RouteNamePrefixInterface
+class RegisteredUserController extends AbstractRegisteredUserController
 {
     /**
-     * Display the registration view.
+     * guard
      *
-     * @return \Illuminate\View\View
+     * @var string
      */
-    public function create()
+    public $guard = 'web';
+    /**
+     * routNamePrefix
+     *
+     * @var string
+     */
+    public $routeNamePrefix = 'users.';
+    /**
+     * viewPrefix
+     *
+     * @var string
+     */
+    public $viewPrefix = 'user.';
+
+    /**
+     * Get guard
+     *
+     * @return  string
+     */
+    public function getGuard() :string
     {
-        return view($this->getViewPrefix() . 'auth.register');
+        return $this->guard;
     }
 
     /**
-     * Handle an incoming registration request.
+     * Set guard
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  string  $guard  guard
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @return  self
      */
-    public function store(Request $request)
+    public function setGuard(string $guard)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'phone' => ['required', 'numeric', 'digits:11', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $this->guard = $guard;
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-        ]);
+        return $this;
+    }
 
-        event(new Registered($user));
+    /**
+     * Get routNamePrefix
+     *
+     * @return  string
+     */
+    public function getRouteNamePrefix() :string
+    {
+        return $this->routeNamePrefix;
+    }
 
-        Auth::guard($this->getGuard())->login($user);
+    /**
+     * Set routNamePrefix
+     *
+     * @param  string  $routeNamePrefix  routNamePrefix
+     *
+     * @return  self
+     */
+    public function setRouteNamePrefix(string $routeNamePrefix)
+    {
+        $this->routeNamePrefix = $routeNamePrefix;
 
-        return redirect()->route($this->getRouteNamePrefix() . 'dashboard');
+        return $this;
+    }
+
+    /**
+     * Get viewPrefix
+     *
+     * @return  string
+     */
+    public function getViewPrefix() :string
+    {
+        return $this->viewPrefix;
+    }
+
+    /**
+     * Set viewPrefix
+     *
+     * @param  string  $viewPrefix  viewPrefix
+     *
+     * @return  self
+     */
+    public function setViewPrefix(string $viewPrefix)
+    {
+        $this->viewPrefix = $viewPrefix;
+
+        return $this;
     }
 }

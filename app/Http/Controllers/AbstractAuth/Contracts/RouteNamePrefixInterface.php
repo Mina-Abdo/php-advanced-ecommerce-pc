@@ -16,5 +16,5 @@ interface RouteNamePrefixInterface
      * @param  string $ruteNamePrefix
      * @return void
      */
-    public function setRouteNamePrefix($ruteNamePrefix);
+    public function setRouteNamePrefix(string $ruteNamePrefix);
 }

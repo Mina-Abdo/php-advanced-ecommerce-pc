@@ -16,5 +16,5 @@ interface GuardInterface
      * @param  string $guard
      * @return void
      */
-    public function setGuard($guard);
+    public function setGuard(string $guard);
 }

@@ -1,71 +1,93 @@
 <?php
 
-namespace App\Http\Controllers\AbstractAuth\Auth;
+namespace App\Http\Controllers\User\Auth;
 
-use App\Http\Controllers\AbstractAuth\Contracts\BrokerInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\ViewPrefixInterface;
-use App\Http\Controllers\Controller;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
+use App\Http\Controllers\AbstractAuth\Auth\NewPasswordController as AbstractNewPasswordController;
 
-abstract class NewPasswordController extends Controller implements
-ViewPrefixInterface,
-BrokerInterface,
-RouteNamePrefixInterface
+
+class NewPasswordController extends AbstractNewPasswordController
 {
     /**
-     * Display the password reset view.
+     * viewPrefix
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
+     * @var string
      */
-    public function create(Request $request)
+    public $viewPrefix = 'user.';
+
+    /**
+     * broker
+     *
+     * @var string
+     */
+    public $broker = 'users';
+
+    /**
+     * routeNamePrefix
+     *
+     * @var string
+     */
+    public $routeNamePrefix = 'users.';
+
+    /**
+     * Get the value of viewPrefix
+     * @return string
+     */
+    public function getViewPrefix() :string
     {
-        return view($this->getViewPrefix() . 'auth.reset-password', ['request' => $request]);
+        return $this->viewPrefix;
     }
 
     /**
-     * Handle an incoming new password request.
+     * Set the value of viewPrefix
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @return  self
      */
-    public function store(Request $request)
+    public function setViewPrefix(string $viewPrefix)
     {
-        $request->validate([
-            'token' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $this->viewPrefix = $viewPrefix;
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
-        $status = Password::broker($this->getBroker())->reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
-                $user->forceFill([
-                    'password' => Hash::make($request->password),
-                    'remember_token' => Str::random(60),
-                ])->save();
+        return $this;
+    }
 
-                event(new PasswordReset($user));
-            }
-        );
+    /**
+     * Get the value of broker
+     * @return string
+     */
+    public function getBroker() :string
+    {
+        return $this->broker;
+    }
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
-        return $status == Password::PASSWORD_RESET
-                    ? redirect()->route($this->getRouteNamePrefix() . 'login')->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+    /**
+     * Set the value of broker
+     *
+     * @return  self
+     */
+    public function setBroker(string $broker)
+    {
+        $this->broker = $broker;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of routeNamePrefix
+     * @return string
+     */
+    public function getRouteNamePrefix() :string
+    {
+        return $this->routeNamePrefix;
+    }
+
+    /**
+     * Set the value of routeNamePrefix
+     *
+     * @return  self
+     */
+    public function setRouteNamePrefix(string $routeNamePrefix)
+    {
+        $this->routeNamePrefix = $routeNamePrefix;
+
+        return $this;
     }
 }

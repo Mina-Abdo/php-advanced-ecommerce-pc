@@ -1,51 +1,64 @@
 <?php
 
-namespace App\Http\Controllers\AbstractAuth\Auth;
+namespace App\Http\Controllers\User\Auth;
 
-use App\Http\Controllers\AbstractAuth\Contracts\BrokerInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\ViewPrefixInterface;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\AbstractAuth\Auth\PasswordResetLinkController as AbstractPasswordResetLinkController;
 
-abstract class PasswordResetLinkController extends Controller implements
-ViewPrefixInterface,
-BrokerInterface
+class PasswordResetLinkController extends AbstractPasswordResetLinkController
 {
     /**
-     * Display the password reset link request view.
+     * viewPrefix
      *
-     * @return \Illuminate\View\View
+     * @var string
      */
-    public function create()
+    public $viewPrefix = 'user.';
+
+    /**
+     * broker
+     *
+     * @var string
+     */
+    public $broker = 'users';
+
+    /**
+     * Get the value of viewPrefix
+     * @return string
+     */
+    public function getViewPrefix() :string
     {
-        return view($this->getViewPrefix() . 'auth.forgot-password');
+        return $this->viewPrefix;
     }
 
     /**
-     * Handle an incoming password reset link request.
+     * Set the value of viewPrefix
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @return  self
      */
-    public function store(Request $request)
+    public function setViewPrefix(string $viewPrefix)
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-        ]);
+        $this->viewPrefix = $viewPrefix;
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::broker($this->getBroker())->sendResetLink(
-            $request->only('email')
-        );
+        return $this;
+    }
 
-        return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+    /**
+     * Get the value of broker
+     * @return string
+     */
+    public function getBroker() :string
+    {
+        return $this->broker;
+    }
+
+    /**
+     * Set the value of broker
+     *
+     * @return  self
+     */
+    public function setBroker(string $broker)
+    {
+        $this->broker = $broker;
+
+        return $this;
     }
 }

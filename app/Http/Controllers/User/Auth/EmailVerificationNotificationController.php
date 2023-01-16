@@ -1,31 +1,63 @@
 <?php
 
-namespace App\Http\Controllers\AbstractAuth\Auth;
+namespace App\Http\Controllers\User\Auth;
 
-use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\Request;
+use App\Http\Controllers\AbstractAuth\Auth\EmailVerificationNotificationController as AbstractEmailVerificationNotificationController;
 
-abstract class EmailVerificationNotificationController extends Controller implements
-GuardInterface,
-RouteNamePrefixInterface
+class EmailVerificationNotificationController extends AbstractEmailVerificationNotificationController
 {
     /**
-     * Send a new email verification notification.
+     * guard
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @var string
      */
-    public function store(Request $request)
+    public $guard = 'web';
+
+    /**
+     * routeNamePrefix
+     *
+     * @var string
+     */
+    public $routeNamePrefix = 'users.';
+
+
+    /**
+     * Get the value of guard
+     */
+    public function getGuard() :string
     {
-        if ($request->user($this->getGuard())->hasVerifiedEmail()) {
-            return redirect()->route($this->getRouteNamePrefix() . 'dashboard');
-        }
+        return $this->guard;
+    }
 
-        $request->user($this->getGuard())->sendEmailVerificationNotification();
+    /**
+     * Set the value of guard
+     *
+     * @return  self
+     */
+    public function setGuard(string $guard)
+    {
+        $this->guard = $guard;
 
-        return back()->with('status', 'verification-link-sent');
+        return $this;
+    }
+
+    /**
+     * Get the value of routeNamePrefix
+     */
+    public function getRouteNamePrefix() :string
+    {
+        return $this->routeNamePrefix;
+    }
+
+    /**
+     * Set the value of routeNamePrefix
+     *
+     * @return  self
+     */
+    public function setRouteNamePrefix(string $routeNamePrefix)
+    {
+        $this->routeNamePrefix = $routeNamePrefix;
+
+        return $this;
     }
 }

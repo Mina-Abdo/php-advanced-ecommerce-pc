@@ -1,74 +1,95 @@
 <?php
 
-namespace App\Http\Controllers\AbstractAuth\Auth;
+namespace App\Http\Controllers\User\Auth;
 
-use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\ViewPrefixInterface;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Controllers\AbstractAuth\Auth\ProfileController as AbstractProfileController;
 
-abstract class ProfileController extends Controller implements
-ViewPrefixInterface,
-GuardInterface,
-RouteNamePrefixInterface
+abstract class ProfileController extends AbstractProfileController
 {
     /**
-     * Display the user's profile form.
+     * viewPrefix
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
+     * @var string
      */
-    public function edit(Request $request)
+    public $viewPrefix = 'user.';
+
+    /**
+     * guard
+     *
+     * @var string
+     */
+    public $guard = 'web';
+
+    /**
+     * routeNamePrefix
+     *
+     * @var string
+     */
+    public $routeNamePrefix = 'users.';
+
+    /**
+     * Get viewPrefix
+     *
+     * @return  string
+     */
+    public function getViewPrefix() :string
     {
-        return view($this->getViewPrefix() . 'profile.edit', [
-            'user' => $request->user(),
-        ]);
+        return $this->viewPrefix;
     }
 
     /**
-     * Update the user's profile information.
+     * Set viewPrefix
      *
-     * @param  \App\Http\Requests\ProfileUpdateRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  string  $viewPrefix  viewPrefix
+     *
+     * @return  self
      */
-    public function update(ProfileUpdateRequest $request)
+    public function setViewPrefix(string $viewPrefix)
     {
-        $request->user($this->getGuard())->fill($request->validated());
+        $this->viewPrefix = $viewPrefix;
 
-        if ($request->user($this->getGuard())->isDirty('email')) {
-            $request->user($this->getGuard())->email_verified_at = null;
-        }
-
-        $request->user($this->getGuard())->save();
-
-        return Redirect::route($this->getRouteNamePrefix() . 'profile.edit')->with('status', 'profile-updated');
+        return $this;
     }
 
     /**
-     * Delete the user's account.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * Get the value of guard
+     * @return string
      */
-    public function destroy(Request $request)
+    public function getGuard() :string
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current-password'],
-        ]);
+        return $this->guard;
+    }
 
-        $user = $request->user($this->getGuard());
+    /**
+     * Set the value of guard
+     *
+     * @return  self
+     */
+    public function setGuard(string $guard)
+    {
+        $this->guard = $guard;
 
-        Auth::guard($this->getGuard())->logout();
+        return $this;
+    }
 
-        $user->delete();
+    /**
+     * Get the value of routeNamePrefix
+     * @return string
+     */
+    public function getRouteNamePrefix() :string
+    {
+        return $this->routeNamePrefix;
+    }
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    /**
+     * Set the value of routeNamePrefix
+     *
+     * @return  self
+     */
+    public function setRouteNamePrefix(string $routeNamePrefix)
+    {
+        $this->routeNamePrefix = $routeNamePrefix;
 
-        return Redirect::route('welcome');
+        return $this;
     }
 }
