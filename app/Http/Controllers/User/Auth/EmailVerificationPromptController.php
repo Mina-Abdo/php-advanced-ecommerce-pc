@@ -2,11 +2,6 @@
 
 namespace App\Http\Controllers\User\Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
 use App\Http\Controllers\AbstractAuth\Auth\EmailVerificationPromptController as AbstractEmailVerificationPromptController;
 
 class EmailVerificationPromptController extends AbstractEmailVerificationPromptController
@@ -24,6 +19,14 @@ class EmailVerificationPromptController extends AbstractEmailVerificationPromptC
      * @var string
      */
     public $routeNamePrefix = 'users.';
+
+    /**
+     * viewPrefix
+     *
+     * @var string
+     */
+    public $viewPrefix = 'user.';
+
 
     /**
      * Get the value of guard
@@ -61,6 +64,30 @@ class EmailVerificationPromptController extends AbstractEmailVerificationPromptC
     public function setRouteNamePrefix(string $routeNamePrefix)
     {
         $this->routeNamePrefix = $routeNamePrefix;
+
+        return $this;
+    }
+
+    /**
+     * Get viewPrefix
+     *
+     * @return  string
+     */
+    public function getViewPrefix() :string
+    {
+        return $this->viewPrefix;
+    }
+
+    /**
+     * Set viewPrefix
+     *
+     * @param  string  $viewPrefix  viewPrefix
+     *
+     * @return  self
+     */
+    public function setViewPrefix(string $viewPrefix)
+    {
+        $this->viewPrefix = $viewPrefix;
 
         return $this;
     }
