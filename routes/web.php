@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Seller;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +23,3 @@ Route::get('/', function () {
 
 
 require __DIR__.'/users.auth.php';
-require __DIR__.'/admins.auth.php';

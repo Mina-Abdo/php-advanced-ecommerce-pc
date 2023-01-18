@@ -136,4 +136,17 @@ return [
 
     'password_timeout' => 10800,
 
+     /*
+    |--------------------------------------------------------------------------
+    | Guard Route Map
+    |--------------------------------------------------------------------------
+    |
+    |Here we map the routes to the available guards.
+    |
+    */
+    'guard_route_map' => [
+        'web'=>'users.',
+        'seller'=>'sellers.'
+    ]
+
 ];
