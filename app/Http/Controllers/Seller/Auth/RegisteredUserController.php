@@ -1,9 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Seller\Auth;
 
+use App\Models\Seller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Validation\Rules\Password;
 use App\Http\Controllers\AbstractAuth\Auth\RegisteredUserController as AbstractRegisteredUserController;
-use App\Models\User;
+
 
 class RegisteredUserController extends AbstractRegisteredUserController
 {
@@ -12,26 +18,26 @@ class RegisteredUserController extends AbstractRegisteredUserController
      *
      * @var string
      */
-    public $guard = 'web';
+    public $guard = 'seller';
     /**
      * routNamePrefix
      *
      * @var string
      */
-    public $routeNamePrefix = 'users.';
+    public $routeNamePrefix = 'sellers.';
     /**
      * viewPrefix
      *
      * @var string
      */
-    public $viewPrefix = 'user.';
+    public $viewPrefix = 'seller.';
 
     /**
      * model
      *
      * @var string
      */
-    private $model = User::class;
+    private $model = Seller::class;
 
     /**
      * Get guard
@@ -127,5 +133,30 @@ class RegisteredUserController extends AbstractRegisteredUserController
         $this->model = $model;
 
         return $this;
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.$this->getModel()],
+            'phone' => ['required', 'numeric', 'digits:11', 'unique:'.$this->getModel()],
+            'password' => ['required', 'confirmed', Password::defaults()],
+            'shop_name' =>['required' , 'string' , 'max:128']
+        ]);
+
+        $user = $this->getModel()::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'shop_name' => $request->shop_name,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+        ]);
+
+        event(new Registered($user));
+
+        Auth::guard($this->getGuard())->login($user);
+
+        return redirect()->route($this->getRouteNamePrefix() . 'dashboard');
     }
 }

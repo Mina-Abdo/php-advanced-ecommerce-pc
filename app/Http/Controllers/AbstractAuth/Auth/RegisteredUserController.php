@@ -6,8 +6,6 @@ use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
 use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
 use App\Http\Controllers\AbstractAuth\Contracts\ViewPrefixInterface;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,12 +39,12 @@ RouteNamePrefixInterface
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'phone' => ['required', 'numeric', 'digits:11', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.$this->getModel()],
+            'phone' => ['required', 'numeric', 'digits:11', 'unique:'.$this->getModel()],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        $user = $this->getModel()::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,

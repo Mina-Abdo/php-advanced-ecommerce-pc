@@ -7,7 +7,6 @@ use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
 use App\Http\Controllers\AbstractAuth\Contracts\ViewPrefixInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,7 +33,7 @@ ViewPrefixInterface
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        $request->authenticate($this->getGuard());
 
         $request->session()->regenerate();
 

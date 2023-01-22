@@ -1,37 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Seller\Auth;
 
-use App\Http\Controllers\AbstractAuth\Auth\RegisteredUserController as AbstractRegisteredUserController;
-use App\Models\User;
 
-class RegisteredUserController extends AbstractRegisteredUserController
+use App\Http\Controllers\AbstractAuth\Auth\AuthenticatedSessionController as AbstractAuthenticatedSessionController;
+
+class AuthenticatedSessionController extends AbstractAuthenticatedSessionController
 {
     /**
      * guard
      *
      * @var string
      */
-    public $guard = 'web';
+    public $guard = 'seller';
     /**
      * routNamePrefix
      *
      * @var string
      */
-    public $routeNamePrefix = 'users.';
+    public $routeNamePrefix = 'sellers.';
     /**
      * viewPrefix
      *
      * @var string
      */
-    public $viewPrefix = 'user.';
-
-    /**
-     * model
-     *
-     * @var string
-     */
-    private $model = User::class;
+    public $viewPrefix = 'seller.';
 
     /**
      * Get guard
@@ -53,30 +46,6 @@ class RegisteredUserController extends AbstractRegisteredUserController
     public function setGuard(string $guard)
     {
         $this->guard = $guard;
-
-        return $this;
-    }
-
-    /**
-     * Get routNamePrefix
-     *
-     * @return  string
-     */
-    public function getRouteNamePrefix() :string
-    {
-        return $this->routeNamePrefix;
-    }
-
-    /**
-     * Set routNamePrefix
-     *
-     * @param  string  $routeNamePrefix  routNamePrefix
-     *
-     * @return  self
-     */
-    public function setRouteNamePrefix(string $routeNamePrefix)
-    {
-        $this->routeNamePrefix = $routeNamePrefix;
 
         return $this;
     }
@@ -106,25 +75,25 @@ class RegisteredUserController extends AbstractRegisteredUserController
     }
 
     /**
-     * Get model
+     * Get routNamePrefix
      *
      * @return  string
      */
-    public function getModel()
+    public function getRouteNamePrefix() :string
     {
-        return $this->model;
+        return $this->routeNamePrefix;
     }
 
     /**
-     * Set model
+     * Set routNamePrefix
      *
-     * @param  string  $model  model
+     * @param  string  $routeNamePrefix  routNamePrefix
      *
      * @return  self
      */
-    public function setModel($model)
+    public function setRouteNamePrefix(string $routeNamePrefix)
     {
-        $this->model = $model;
+        $this->routeNamePrefix = $routeNamePrefix;
 
         return $this;
     }

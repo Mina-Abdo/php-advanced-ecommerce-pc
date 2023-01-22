@@ -48,11 +48,11 @@ function getGuardFromModel(Model $model) :?string
 }
 
 /**
-     * Get guardRouteMap
-     *
-     * @return  array
-     */
-    function getGuardRouteMap(string $guard)
-    {
-        return config('auth.guard_route_map')[$guard] ?? 'users.';
-    }
+* Get guardRouteMap
+*
+* @return  array
+*/
+function getGuardRouteMap(string $guard)
+{
+    return config('auth.guard_route_map')[$guard] ?? 'users.';
+}

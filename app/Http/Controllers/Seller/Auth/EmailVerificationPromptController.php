@@ -1,42 +1,35 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Seller\Auth;
 
-use App\Http\Controllers\AbstractAuth\Auth\RegisteredUserController as AbstractRegisteredUserController;
-use App\Models\User;
+use App\Http\Controllers\AbstractAuth\Auth\EmailVerificationPromptController as AbstractEmailVerificationPromptController;
 
-class RegisteredUserController extends AbstractRegisteredUserController
+class EmailVerificationPromptController extends AbstractEmailVerificationPromptController
 {
     /**
      * guard
      *
      * @var string
      */
-    public $guard = 'web';
+    public $guard = 'seller';
+
     /**
-     * routNamePrefix
+     * routeNamePrefix
      *
      * @var string
      */
-    public $routeNamePrefix = 'users.';
+    public $routeNamePrefix = 'sellers.';
+
     /**
      * viewPrefix
      *
      * @var string
      */
-    public $viewPrefix = 'user.';
+    public $viewPrefix = 'seller.';
+
 
     /**
-     * model
-     *
-     * @var string
-     */
-    private $model = User::class;
-
-    /**
-     * Get guard
-     *
-     * @return  string
+     * Get the value of guard
      */
     public function getGuard() :string
     {
@@ -44,9 +37,7 @@ class RegisteredUserController extends AbstractRegisteredUserController
     }
 
     /**
-     * Set guard
-     *
-     * @param  string  $guard  guard
+     * Set the value of guard
      *
      * @return  self
      */
@@ -58,9 +49,7 @@ class RegisteredUserController extends AbstractRegisteredUserController
     }
 
     /**
-     * Get routNamePrefix
-     *
-     * @return  string
+     * Get the value of routeNamePrefix
      */
     public function getRouteNamePrefix() :string
     {
@@ -68,9 +57,7 @@ class RegisteredUserController extends AbstractRegisteredUserController
     }
 
     /**
-     * Set routNamePrefix
-     *
-     * @param  string  $routeNamePrefix  routNamePrefix
+     * Set the value of routeNamePrefix
      *
      * @return  self
      */
@@ -101,30 +88,6 @@ class RegisteredUserController extends AbstractRegisteredUserController
     public function setViewPrefix(string $viewPrefix)
     {
         $this->viewPrefix = $viewPrefix;
-
-        return $this;
-    }
-
-    /**
-     * Get model
-     *
-     * @return  string
-     */
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    /**
-     * Set model
-     *
-     * @param  string  $model  model
-     *
-     * @return  self
-     */
-    public function setModel($model)
-    {
-        $this->model = $model;
 
         return $this;
     }
