@@ -1,26 +1,28 @@
 <?php
 
-use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
-use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Admin\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Admin\Auth\NewPasswordController;
-use App\Http\Controllers\Admin\Auth\PasswordController;
-use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Admin\Auth\RegisteredUserController;
-use App\Http\Controllers\Admin\Auth\VerifyEmailController;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\Auth\PasswordController;
+use App\Http\Controllers\Admin\Auth\NewPasswordController;
+use App\Http\Controllers\Admin\Auth\VerifyEmailController;
+use App\Http\Controllers\Admin\Auth\RegisteredUserController;
+use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
 
 
-Route::prefix('admins')->group(function(){
-    Route::middleware('guest')->group(function () {
+Route::prefix('admins')->name('admins.')->group(function(){
+    Route::middleware('guest:admin')->group(function () {
         Route::get('register', [RegisteredUserController::class, 'create'])
-                    ->name('admin.register');
+                    ->name('register');
 
         Route::post('register', [RegisteredUserController::class, 'store']);
 
         Route::get('login', [AuthenticatedSessionController::class, 'create'])
-                    ->name('admin.login');
+                    ->name('login');
 
         Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
@@ -37,17 +39,17 @@ Route::prefix('admins')->group(function(){
                     ->name('password.store');
     });
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware('auth:admin')->group(function () {
         Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
-                    ->name('verification.notice');
+                    ->name('verification.notice'); // return mail view
 
         Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
                     ->middleware(['signed', 'throttle:6,1'])
-                    ->name('verification.verify');
+                    ->name('verification.verify'); //make user verified
 
         Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
                     ->middleware('throttle:6,1')
-                    ->name('admin.verification.send');
+                    ->name('verification.send'); //send email verification
 
         Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
                     ->name('password.confirm');
@@ -57,7 +59,15 @@ Route::prefix('admins')->group(function(){
         Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-                    ->name('admin.logout');
+                    ->name('logout');
+    });
+
+    Route::middleware(['auth:admin', 'verified:admin'])->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
     });
 });
-
