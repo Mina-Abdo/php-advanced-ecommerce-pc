@@ -2,24 +2,16 @@
 
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\Auth\ProfileController;
 use App\Http\Controllers\Admin\Auth\PasswordController;
 use App\Http\Controllers\Admin\Auth\NewPasswordController;
-use App\Http\Controllers\Admin\Auth\VerifyEmailController;
-use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Admin\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
 
 
 Route::prefix('admins')->name('admins.')->group(function(){
     Route::middleware('guest:admin')->group(function () {
-        Route::get('register', [RegisteredUserController::class, 'create'])
-                    ->name('register');
-
-        Route::post('register', [RegisteredUserController::class, 'store']);
 
         Route::get('login', [AuthenticatedSessionController::class, 'create'])
                     ->name('login');
@@ -40,16 +32,6 @@ Route::prefix('admins')->name('admins.')->group(function(){
     });
 
     Route::middleware('auth:admin')->group(function () {
-        Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
-                    ->name('verification.notice'); // return mail view
-
-        Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-                    ->middleware(['signed', 'throttle:6,1'])
-                    ->name('verification.verify'); //make user verified
-
-        Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-                    ->middleware('throttle:6,1')
-                    ->name('verification.send'); //send email verification
 
         Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
                     ->name('password.confirm');

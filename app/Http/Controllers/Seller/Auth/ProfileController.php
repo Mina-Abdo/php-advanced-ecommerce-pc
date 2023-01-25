@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Seller\Auth;
 
 use App\Http\Controllers\AbstractAuth\Auth\ProfileController as AbstractProfileController;
 
-abstract class ProfileController extends AbstractProfileController
+class ProfileController extends AbstractProfileController
 {
     /**
      * viewPrefix

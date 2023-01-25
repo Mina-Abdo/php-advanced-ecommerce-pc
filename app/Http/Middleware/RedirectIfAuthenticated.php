@@ -22,14 +22,16 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
-            if ($guard === 'web') {
-                return redirect()->route('users.dashboard');
-            }
-            if ($guard === 'seller') {
-                return redirect()->route('sellers.dashboard');
-            }
-            if ($guard === 'admin') {
-                return redirect()->route('admins.dashboard');
+            if(Auth::guard($guard)->check()){
+                if ($guard === 'web') {
+                    return redirect()->route('users.dashboard');
+                }
+                if ($guard === 'seller') {
+                    return redirect()->route('sellers.dashboard');
+                }
+                if ($guard === 'admin') {
+                    return redirect()->route('admins.dashboard');
+                }
             }
         }
 

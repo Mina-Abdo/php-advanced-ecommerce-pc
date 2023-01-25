@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\Models\Product;
 use Laravel\Sanctum\HasApiTokens;
-use App\Notifications\VerifyEmail;
-use App\Notifications\ResetPassword;
+use App\Traits\sendEmailVerificationNotificationTrait;
+use App\Traits\sendPasswordResetNotificationTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Seller extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable , sendEmailVerificationNotificationTrait , sendPasswordResetNotificationTrait;
 
         /**
      * The attributes that are mass assignable.
@@ -46,26 +46,5 @@ class Seller extends Authenticatable implements MustVerifyEmail
 
     public function products() {
         return $this->hasMany(Product::class);
-    }
-
-    /**
-     * Send the email verification notification.
-     *
-     * @return void
-     */
-    public function sendEmailVerificationNotification()
-    {
-        $this->notify(new VerifyEmail);
-    }
-
-    /**
-     * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new ResetPassword($token));
     }
 }

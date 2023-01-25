@@ -56,3 +56,29 @@ function getGuardRouteMap(string $guard)
 {
     return config('auth.guard_route_map')[$guard] ?? 'users.';
 }
+
+/**
+ * getModelFromGuard
+ *
+ * @param  mixed $guard
+ * @return string
+ */
+function getModelFromGuard(string $guard) :?string
+{
+    // $provider=null;
+    foreach(config('auth.guards') as $guard){
+            $provider = $guard['provider'];
+
+    }
+    dd($provider);
+
+    // return config('auth.providers')[$provider]['model'];
+    foreach(config('auth.providers') as $prov)
+    {
+        if($prov === $provider)
+        {
+            return $prov['model'];
+        }
+    }
+    return null;
+}

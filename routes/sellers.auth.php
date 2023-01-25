@@ -2,7 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Seller\ProfileController;
+use App\Http\Controllers\Seller\Auth\ProfileController;
 use App\Http\Controllers\Seller\Auth\PasswordController;
 use App\Http\Controllers\Seller\Auth\NewPasswordController;
 use App\Http\Controllers\Seller\Auth\VerifyEmailController;

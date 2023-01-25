@@ -20,7 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-
+Route::get('/test', function () {
+    dd(getModelFromGuard('admin'));
+});
 
 require __DIR__.'/users.auth.php';
 require __DIR__.'/sellers.auth.php';
+require __DIR__.'/admins.auth.php';

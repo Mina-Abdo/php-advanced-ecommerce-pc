@@ -146,7 +146,8 @@ return [
     */
     'guard_route_map' => [
         'web'=>'users.',
-        'seller'=>'sellers.'
+        'seller'=>'sellers.',
+        'admin'=>'admins.'
     ]
 
 ];

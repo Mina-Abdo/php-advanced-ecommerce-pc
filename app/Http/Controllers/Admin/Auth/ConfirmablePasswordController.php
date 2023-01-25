@@ -1,36 +1,35 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
-use App\Http\Controllers\AbstractAuth\Auth\ProfileController as AbstractProfileController;
 
-class ProfileController extends AbstractProfileController
+use App\Http\Controllers\AbstractAuth\Auth\ConfirmablePasswordController AS AbstractConfirmablePasswordController;
+
+class ConfirmablePasswordController extends AbstractConfirmablePasswordController
 {
     /**
      * viewPrefix
      *
      * @var string
      */
-    public $viewPrefix = 'user.';
+    public $viewPrefix = 'admin.';
 
     /**
      * guard
      *
      * @var string
      */
-    public $guard = 'web';
+    public $guard = 'admin';
 
     /**
      * routeNamePrefix
      *
      * @var string
      */
-    public $routeNamePrefix = 'users.';
+    public $routeNamePrefix = 'admins.';
 
     /**
-     * Get viewPrefix
-     *
-     * @return  string
+     * Get the value of viewPrefix
      */
     public function getViewPrefix() :string
     {
@@ -38,9 +37,7 @@ class ProfileController extends AbstractProfileController
     }
 
     /**
-     * Set viewPrefix
-     *
-     * @param  string  $viewPrefix  viewPrefix
+     * Set the value of viewPrefix
      *
      * @return  self
      */
@@ -53,7 +50,6 @@ class ProfileController extends AbstractProfileController
 
     /**
      * Get the value of guard
-     * @return string
      */
     public function getGuard() :string
     {
@@ -74,7 +70,6 @@ class ProfileController extends AbstractProfileController
 
     /**
      * Get the value of routeNamePrefix
-     * @return string
      */
     public function getRouteNamePrefix() :string
     {

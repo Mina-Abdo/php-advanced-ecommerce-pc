@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\AbstractAuth\Auth;
 
-use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
-use App\Http\Controllers\AbstractAuth\Contracts\ViewPrefixInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Controllers\AbstractAuth\Contracts\GuardInterface;
+use App\Http\Controllers\AbstractAuth\Contracts\ViewPrefixInterface;
+use App\Http\Controllers\AbstractAuth\Contracts\RouteNamePrefixInterface;
 
 abstract class ProfileController extends Controller implements
 ViewPrefixInterface,
@@ -45,7 +46,13 @@ RouteNamePrefixInterface
 
         $request->user($this->getGuard())->save();
 
+        if($request->has('email'))
+        {
+            event(new Registered($request->user($this->getGuard())));
+        }
         return Redirect::route($this->getRouteNamePrefix() . 'profile.edit')->with('status', 'profile-updated');
+        dd('updated');
+
     }
 
     /**

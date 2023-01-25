@@ -1,36 +1,36 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
-use App\Http\Controllers\AbstractAuth\Auth\ProfileController as AbstractProfileController;
+use App\Http\Controllers\AbstractAuth\Auth\NewPasswordController as AbstractNewPasswordController;
 
-class ProfileController extends AbstractProfileController
+
+class NewPasswordController extends AbstractNewPasswordController
 {
     /**
      * viewPrefix
      *
      * @var string
      */
-    public $viewPrefix = 'user.';
+    public $viewPrefix = 'admin.';
 
     /**
-     * guard
+     * broker
      *
      * @var string
      */
-    public $guard = 'web';
+    public $broker = 'admins';
 
     /**
      * routeNamePrefix
      *
      * @var string
      */
-    public $routeNamePrefix = 'users.';
+    public $routeNamePrefix = 'admins.';
 
     /**
-     * Get viewPrefix
-     *
-     * @return  string
+     * Get the value of viewPrefix
+     * @return string
      */
     public function getViewPrefix() :string
     {
@@ -38,9 +38,7 @@ class ProfileController extends AbstractProfileController
     }
 
     /**
-     * Set viewPrefix
-     *
-     * @param  string  $viewPrefix  viewPrefix
+     * Set the value of viewPrefix
      *
      * @return  self
      */
@@ -52,22 +50,22 @@ class ProfileController extends AbstractProfileController
     }
 
     /**
-     * Get the value of guard
+     * Get the value of broker
      * @return string
      */
-    public function getGuard() :string
+    public function getBroker() :string
     {
-        return $this->guard;
+        return $this->broker;
     }
 
     /**
-     * Set the value of guard
+     * Set the value of broker
      *
      * @return  self
      */
-    public function setGuard(string $guard)
+    public function setBroker(string $broker)
     {
-        $this->guard = $guard;
+        $this->broker = $broker;
 
         return $this;
     }
