@@ -36,24 +36,23 @@ RouteNamePrefixInterface
      * @param  \App\Http\Requests\ProfileUpdateRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ProfileUpdateRequest $request)
-    {
-        $request->user($this->getGuard())->fill($request->validated());
+    // public function update(ProfileUpdateRequest $request)
+    // {
+    //     $request->user($this->getGuard())->fill($request->validated());
 
-        if ($request->user($this->getGuard())->isDirty('email')) {
-            $request->user($this->getGuard())->email_verified_at = null;
-        }
+    //     if ($request->user($this->getGuard())->isDirty('email')) {
+    //         $request->user($this->getGuard())->email_verified_at = null;
+    //     }
 
-        $request->user($this->getGuard())->save();
+    //     $request->user($this->getGuard())->save();
 
-        if($request->has('email'))
-        {
-            event(new Registered($request->user($this->getGuard())));
-        }
-        return Redirect::route($this->getRouteNamePrefix() . 'profile.edit')->with('status', 'profile-updated');
-        dd('updated');
+    //     if($request->has('email'))
+    //     {
+    //         event(new Registered($request->user($this->getGuard())));
+    //     }
+    //     return Redirect::route($this->getRouteNamePrefix() . 'profile.edit')->with('status', 'profile-updated');
 
-    }
+    // }
 
     /**
      * Delete the user's account.

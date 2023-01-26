@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\Product;
 use Laravel\Sanctum\HasApiTokens;
-use App\Traits\sendEmailVerificationNotificationTrait;
+use App\Traits\SendEmailVerificationTrait;
 use App\Traits\sendPasswordResetNotificationTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Seller extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable , sendEmailVerificationNotificationTrait , sendPasswordResetNotificationTrait;
+    use HasApiTokens, HasFactory, Notifiable , SendEmailVerificationTrait , sendPasswordResetNotificationTrait;
 
         /**
      * The attributes that are mass assignable.

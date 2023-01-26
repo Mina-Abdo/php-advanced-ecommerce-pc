@@ -21,7 +21,8 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::get('/test', function () {
-    dd(getModelFromGuard('admin'));
+    $provider = (getProviderFromGuard('web'));
+    dd(getModelFromGuard('web'));
 });
 
 require __DIR__.'/users.auth.php';

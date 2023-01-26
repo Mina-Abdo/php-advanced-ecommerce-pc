@@ -63,22 +63,20 @@ function getGuardRouteMap(string $guard)
  * @param  mixed $guard
  * @return string
  */
+function getProviderFromGuard(string $guard) :?string
+{
+    return config('auth.guards')[$guard]['provider'] ?? null;
+}
+
+function getModelFromProvider(string $provider) :?string
+{
+    $model =  explode('\Models\\' , config('auth.providers')[$provider]['model'] )[1];
+    return $model ?? null;
+}
+
 function getModelFromGuard(string $guard) :?string
 {
-    // $provider=null;
-    foreach(config('auth.guards') as $guard){
-            $provider = $guard['provider'];
-
-    }
-    dd($provider);
-
-    // return config('auth.providers')[$provider]['model'];
-    foreach(config('auth.providers') as $prov)
-    {
-        if($prov === $provider)
-        {
-            return $prov['model'];
-        }
-    }
-    return null;
+    $provider = config('auth.guards')[$guard]['provider'] ?? null;
+    $model =  explode('\Models\\' , config('auth.providers')[$provider]['model'] )[1];
+    return $model ?? null;
 }
