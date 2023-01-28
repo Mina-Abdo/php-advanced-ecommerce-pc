@@ -5,17 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title> Admin Dashboard</title>
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        @include('admin.dashboardLayouts.styels')
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('admin.layouts.navigation')
+    <body class="hold-transition sidebar-mini layout-fixed">
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900 wrapper">
+            
+            @include('admin.dashboardLayouts.navbar')
 
             <!-- Page Heading -->
             @if (isset($header))
@@ -25,11 +28,13 @@
                     </div>
                 </header>
             @endif
-
             <!-- Page Content -->
             <main>
                 {{ $slot }}
             </main>
         </div>
+
+        @include('admin.dashboardLayouts.scripts')
+
     </body>
 </html>

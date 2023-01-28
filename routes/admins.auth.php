@@ -49,7 +49,7 @@ Route::prefix('admins')->name('admins.')->group(function(){
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::get('/dashboard', function () {
-            return view('admin.dashboard');
+            return view('admin.admindash');
         })->name('dashboard');
     });
 });
