@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/shop', function () {
+    return view('layouts.product');
+})->name('shop');
+
 Route::get('/test', function () {
     $provider = (getProviderFromGuard('web'));
     dd(getModelFromGuard('web'));
