@@ -2,6 +2,12 @@
     <form method="POST" action="{{ route('users.register') }}">
         @csrf
 
+        <div class="text-black my-3" style="font-size: 1.25rem; margin-left:30%">
+            <p  class="">
+                Seller Register
+            </p>
+        </div>
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

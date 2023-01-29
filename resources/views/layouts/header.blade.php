@@ -33,35 +33,35 @@
             <nav class="limiter-menu-desktop container">
 
                 <!-- Logo desktop -->
-                <a href="#" class="logo">
+                <a href="{{route('welcome')}}" class="logo">
                     <img src="{{ asset('assets/frontEnd/images/icons/logo-01.png') }}" alt="IMG-LOGO">
                 </a>
 
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
                     <ul class="main-menu">
-                        <li class="active-menu">
+                        <li >
                             <a href="{{route('welcome')}}">Home</a>
                         </li>
 
                         <li>
-                            <a href="product.html">Shop</a>
+                            <a href="{{route('shop')}}">Shop</a>
                         </li>
 
                         <li class="label1" data-label1="hot">
-                            <a href="shoping-cart.html">Features</a>
+                            <a href="{{route('cart')}}">Features</a>
                         </li>
 
                         <li>
-                            <a href="blog.html">Blog</a>
+                            <a href="{{route('blog')}}">Blog</a>
                         </li>
 
                         <li>
-                            <a href="about.html">About</a>
+                            <a href="{{route('about')}}">About</a>
                         </li>
 
                         <li>
-                            <a href="contact.html">Contact</a>
+                            <a href="{{route('contact')}}">Contact</a>
                         </li>
                     </ul>
                 </div>

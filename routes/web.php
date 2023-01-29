@@ -24,6 +24,22 @@ Route::get('/shop', function () {
     return view('layouts.product');
 })->name('shop');
 
+Route::get('/cart', function () {
+    return view('layouts.shoping-cart');
+})->name('cart');
+
+Route::get('/blog', function () {
+    return view('layouts.blog');
+})->name('blog');
+
+Route::get('/about', function () {
+    return view('layouts.about');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('layouts.contact');
+})->name('contact');
+
 Route::get('/test', function () {
     $provider = (getProviderFromGuard('web'));
     dd(getModelFromGuard('web'));

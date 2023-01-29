@@ -2,6 +2,12 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <div class="text-black my-3" style="font-size: 1.25rem; margin-left:35%">
+        <p  class="">
+            Seller Login
+        </p>
+    </div>
+
     <form method="POST" action="{{ route('sellers.login') }}">
         @csrf
 
