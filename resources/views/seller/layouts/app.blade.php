@@ -7,6 +7,8 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        @include('layouts.styles')
+
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
@@ -15,7 +17,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('seller.layouts.navigation')
+            {{-- @include('seller.layouts.navigation') --}}
 
             <!-- Page Heading -->
             @if (isset($header))
@@ -31,5 +33,8 @@
                 {{ $slot }}
             </main>
         </div>
+
+        @include('layouts.scripts')
+
     </body>
 </html>

@@ -84,6 +84,49 @@
                     </a>
                     <div class="menu-desktop">
                         <ul class="main-menu">
+                            @if (Auth::guard('web')->check())
+                            <li>
+                                <a href="{{route('users.dashboard')}}"> {{ Auth::guard('web')->user('web')->name }} </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="{{ route('users.profile.edit') }}"
+                                            class="text-sm text-gray-700 dark:text-gray-500 underline"> {{ __('Profile') }}</a>
+                                    </li>
+                                    <li>
+                                        <form method="POST" action="{{ route('users.logout') }}">
+                                            @csrf
+
+                                            <x-dropdown-link :href="route('users.logout')"
+                                                onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                                {{ __('Log Out') }}
+                                            </x-dropdown-link>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                            @elseif (Auth::guard('seller')->check())
+                            <li>
+                                <a href="{{route('sellers.dashboard')}}"> {{ Auth::guard('seller')->user('seller')->name }} </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="{{ route('sellers.profile.edit') }}"
+                                            class="text-sm text-gray-700 dark:text-gray-500 underline"> {{ __('Profile') }}</a>
+                                    </li>
+                                    <li>
+                                        <form method="POST" action="{{ route('sellers.logout') }}">
+                                            @csrf
+
+                                            <x-dropdown-link :href="route('sellers.logout')"
+                                                onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                                {{ __('Log Out') }}
+                                            </x-dropdown-link>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                            @else
                             <li>
                                 <a >My Account</a>
                                 <ul class="sub-menu">
@@ -130,6 +173,9 @@
                                     @endif
 
                                 </ul>
+                            </li>
+                            @endif
+
                         </ul>
                     </div>
                 </div>

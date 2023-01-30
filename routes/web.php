@@ -21,7 +21,7 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::get('/shop', function () {
-    return view('layouts.product');
+    return view('layouts.shop');
 })->name('shop');
 
 Route::get('/cart', function () {
