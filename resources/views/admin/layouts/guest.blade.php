@@ -7,6 +7,9 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <!-- front-end styles -->
+        @include('layouts.styles')
+
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
@@ -14,6 +17,9 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
+
+        @include('layouts.header')
+
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
             <div>
                 {{-- <a href="/">
@@ -27,5 +33,12 @@
                 {{ $slot }}
             </div>
         </div>
+
+
+        @include('layouts.footer')
+        
+        <!-- front-end scripts -->
+        @include('layouts.scripts')
+
     </body>
 </html>

@@ -5,9 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>E-commerce</title>
 
+        <!-- front-End styles -->
         @include('layouts.styles')
+
+        <!-- admin styles -->
+        @include('admin.dashboardLayouts.styels')
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
@@ -19,6 +23,7 @@
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             {{-- @include('seller.layouts.navigation') --}}
 
+            @include('layouts.header')
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white dark:bg-gray-800 shadow">
@@ -34,7 +39,13 @@
             </main>
         </div>
 
+        @include('layouts.footer')
+
+        <!-- front-End scripts -->
         @include('layouts.scripts')
+
+        <!-- admin scripts -->
+        @include('admin.dashboardLayouts.scripts')
 
     </body>
 </html>

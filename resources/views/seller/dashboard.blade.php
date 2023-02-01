@@ -1,5 +1,5 @@
 <x-app-seller-layout>
 
-    @include('layouts.shop')
-    
+    @include('seller.layouts.dashboardElements')
+
 </x-app-seller-layout>

@@ -17,7 +17,7 @@
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900 wrapper">
-            
+
             @include('admin.dashboardLayouts.navbar')
 
             <!-- Page Heading -->
@@ -33,6 +33,8 @@
                 {{ $slot }}
             </main>
         </div>
+
+        {{-- @include('admin.dashboardLayouts.scripts') --}}
 
         @include('admin.dashboardLayouts.scripts')
 

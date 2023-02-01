@@ -1,5 +1,5 @@
 <!--===============================================================================================-->
-<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+<link rel="icon" type="image/png" href="{{asset('assets/frontEnd/images/icons/favicon.png')}}"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/frontEnd/packages/bootstrap/css/bootstrap.min.css')}}">
 <!--===============================================================================================-->
